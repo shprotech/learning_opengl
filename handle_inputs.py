@@ -10,8 +10,13 @@ from OpenGL import GL, GLU, GLUT
 
 from consts import WORLD_MIN_X, WORLD_MAX_X, WORLD_MIN_Y, WORLD_MAX_Y
 
+type Coordinate = tuple[float, float]
 
-def convert_to_world_coordinates(x: int, y: int) -> tuple[float, float]:
+
+PROVIDED_COORDINATES: list[Coordinate] = []
+
+
+def convert_to_world_coordinates(x: int, y: int) -> Coordinate:
     """
     Convert screen coordinates to world coordinates.
 
@@ -85,10 +90,14 @@ def mouse(button: int, state: int, mouse_x: int, mouse_y: int):
             window_height
         )
 
+        PROVIDED_COORDINATES.append((world_x, world_y))
+
         # Start drawing points
-        GL.glBegin(GL.GL_POINTS)
-        # Draw a point at the mouse position
-        GL.glVertex2f(world_x, world_y)
+        GL.glBegin(GL.GL_LINE_STRIP)
+
+        for x, y in PROVIDED_COORDINATES:
+            GL.glVertex2f(x, y)
+
         # End drawing points
         GL.glEnd()
     # If the right mouse button is released
