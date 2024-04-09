@@ -5,6 +5,7 @@ Handle inputs from the user.
 :date: 17/03/2024
 """
 import random
+import os
 
 from OpenGL import GL, GLU, GLUT
 
